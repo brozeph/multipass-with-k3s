@@ -74,8 +74,8 @@ launch_nodes () {
   multipass exec ${K3S_MASTER_VM} -- /bin/bash -c \
     "curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s -"
 
-  # wait 10 sec for k3s to initialize (this actually might not even be needed...)
-  echo Waiting for k3s initialization on ${K3S_MASTER_VM}
+  # wait 10 sec for k3s master to initialize (this actually might not even be needed...)
+  echo "Waiting for k3s master node initialization: ${K3S_MASTER_VM}"
   sleep 10
 
   # determine URL of master node
@@ -88,12 +88,18 @@ launch_nodes () {
   K3S_TOKEN="$(multipass exec ${K3S_MASTER_VM} -- /bin/bash -c "sudo cat /var/lib/rancher/k3s/server/node-token")"
 
   # deploy k3s on k3s worker 1
+  echo "Deploying k3s on worker node ${K3S_WORKER_1_VM}"
   multipass exec ${K3S_WORKER_1_VM} -- /bin/bash -c \
     "curl -sfL https://get.k3s.io | K3S_TOKEN=${K3S_TOKEN} K3S_URL=${K3S_URL} sh -s -"
-
+  
   # deploy k3s on k3s worker 2
+  echo "Deploying k3s on worker node ${K3S_WORKER_2_VM}"
   multipass exec ${K3S_WORKER_2_VM} -- /bin/bash -c \
     "curl -sfL https://get.k3s.io | K3S_TOKEN=${K3S_TOKEN} K3S_URL=${K3S_URL} sh -s -"
+
+  # wait for k3s workers to initialize
+  echo "Waiting for k3s worker initialization: ${K3S_WORKER_1_VM} and ${K3S_WORKER_2_VM}"
+  sleep 10
 }
 
 # check for --cleanup argument
