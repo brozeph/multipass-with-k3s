@@ -99,7 +99,7 @@ launch_nodes () {
 
   # wait for k3s workers to initialize
   echo "Waiting for k3s worker initialization: ${K3S_WORKER_1_VM} and ${K3S_WORKER_2_VM}"
-  sleep 10
+  sleep 20
 }
 
 # check for --cleanup argument
