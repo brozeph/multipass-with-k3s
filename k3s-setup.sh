@@ -8,9 +8,9 @@ K3S_WORKER_1_VM=k3s-worker-1
 K3S_WORKER_2_VM=k3s-worker-2
 
 # settings for the master and worker nodes (update as desired)
-K3S_CPUS=2
-K3S_MEM=2G
-K3S_DISK=4G
+K3S_CPUS=1
+K3S_MEM=1G
+K3S_DISK=2G
 
 # configure the cluster roles using kubectl
 configure_roles () {

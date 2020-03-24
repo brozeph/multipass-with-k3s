@@ -7,7 +7,7 @@ This script was developed for MacOS development environments, but might translat
 ### multipass
 
 ```bash
-brew install multipass
+brew cask install multipass
 ```
 
 ### kubectl
