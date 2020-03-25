@@ -10,7 +10,7 @@ K3S_WORKER_2_VM=k3s-worker-2
 # settings for the master and worker nodes (update as desired)
 K3S_CPUS=1
 K3S_MEM=1G
-K3S_DISK=2G
+K3S_DISK=8G
 
 # configure the cluster roles using kubectl
 configure_roles () {
@@ -18,11 +18,11 @@ configure_roles () {
 
   kubectl --kubeconfig=${KUBECONFIG} label node ${K3S_MASTER_VM} \
     node-role.kubernetes.io/master="" --overwrite=true
-  
+
   sleep 1
   kubectl --kubeconfig=${KUBECONFIG} label node ${K3S_WORKER_1_VM} \
     node-role.kubernetes.io/node="" --overwrite=true
-  
+
   sleep 1
   kubectl --kubeconfig=${KUBECONFIG} label node ${K3S_WORKER_2_VM} \
     node-role.kubernetes.io/node="" --overwrite=true
@@ -91,7 +91,7 @@ launch_nodes () {
   echo "Deploying k3s on worker node ${K3S_WORKER_1_VM}"
   multipass exec ${K3S_WORKER_1_VM} -- /bin/bash -c \
     "curl -sfL https://get.k3s.io | K3S_TOKEN=${K3S_TOKEN} K3S_URL=${K3S_URL} sh -s -"
-  
+
   # deploy k3s on k3s worker 2
   echo "Deploying k3s on worker node ${K3S_WORKER_2_VM}"
   multipass exec ${K3S_WORKER_2_VM} -- /bin/bash -c \
